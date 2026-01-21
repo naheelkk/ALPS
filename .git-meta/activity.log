@@ -76,3 +76,4 @@
 2026-01-20T14:11:29  refactor: code cleanup
 2026-01-20T16:13:43  docs: improve inline docs
 2026-01-21T10:16:34  refactor: simplify flow
+2026-01-21T13:44:11  fix: resolve type issues
