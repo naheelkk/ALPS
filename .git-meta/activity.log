@@ -81,3 +81,4 @@
 2026-01-21T18:16:25  docs: improve inline docs
 2026-01-21T21:47:51  feat: add utility helper
 2026-01-22T20:44:50  perf: optimise logic
+2026-01-23T10:44:26  fix: edge case handling
