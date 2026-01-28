@@ -100,3 +100,4 @@
 2026-01-27T16:58:43  chore: cleanup unused code
 2026-01-27T17:41:45  chore: update config
 2026-01-27T20:40:51  refactor: improve readability
+2026-01-28T13:06:44  refactor: simplify flow
