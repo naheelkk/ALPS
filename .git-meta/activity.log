@@ -122,3 +122,4 @@
 2026-02-03T15:51:51  docs: update comments
 2026-02-04T15:48:50  chore: housekeeping
 2026-02-04T16:18:48  docs: improve inline docs
+2026-02-04T20:05:16  fix: edge case handling
