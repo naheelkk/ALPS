@@ -153,3 +153,4 @@
 2026-02-11T20:04:22  perf: optimise logic
 2026-02-12T10:16:17  fix: edge case handling
 2026-02-12T12:25:11  fix: edge case handling
+2026-02-12T14:16:43  fix: resolve type issues
