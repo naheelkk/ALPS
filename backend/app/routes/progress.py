@@ -3,7 +3,9 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from sqlalchemy import func
 from datetime import datetime, timedelta
 from app import db
-from app.models import User, Submission, Enrollment, LessonProgress, Answer, Course, Quiz, Assessment, AssessmentSubmission
+from app.models import User, Submission, Enrollment, LessonProgress, Answer, Course, Quiz
+# ASSESSMENT FEATURE DISABLED (faculty requirement)
+# from app.models import Assessment, AssessmentSubmission
 
 progress_bp = Blueprint('progress', __name__)
 
@@ -166,17 +168,18 @@ def get_recent_feed(user_id):
             'timestamp': sub.submitted_at.timestamp()
         })
         
+    # ASSESSMENT FEATURE DISABLED (faculty requirement)
     # 2. Assessment Submissions
-    assessments = AssessmentSubmission.query.filter_by(user_id=user_id).order_by(AssessmentSubmission.submitted_at.desc()).limit(5).all()
-    for sub in assessments:
-        feed.append({
-            'type': 'assessment',
-            'title': sub.assessment.title,
-            'score': sub.score, # Might be None if not graded
-            'status': sub.status,
-            'date': sub.submitted_at,
-            'timestamp': sub.submitted_at.timestamp()
-        })
+    # assessments = AssessmentSubmission.query.filter_by(user_id=user_id).order_by(AssessmentSubmission.submitted_at.desc()).limit(5).all()
+    # for sub in assessments:
+    #     feed.append({
+    #         'type': 'assessment',
+    #         'title': sub.assessment.title,
+    #         'score': sub.score, # Might be None if not graded
+    #         'status': sub.status,
+    #         'date': sub.submitted_at,
+    #         'timestamp': sub.submitted_at.timestamp()
+    #     })
         
     # 3. Enrollments (New Courses)
     enrollments = Enrollment.query.filter_by(user_id=user_id).order_by(Enrollment.enrolled_at.desc()).limit(5).all()
@@ -272,7 +275,7 @@ def get_weak_concepts():
 
 
 def calculate_streak(user_id):
-    """Calculate consecutive days of activity (Quizzes, Lessons, Assessments)."""
+    """Calculate consecutive days of activity (Quizzes, Lessons)."""
     # 1. Get Quiz Submissions
     quiz_dates = db.session.query(
         func.date(Submission.submitted_at)
@@ -283,10 +286,11 @@ def calculate_streak(user_id):
         func.date(LessonProgress.completed_at)
     ).filter_by(user_id=user_id, completed=True).all()
     
+    # ASSESSMENT FEATURE DISABLED (faculty requirement)
     # 3. Get Assessment Submissions
-    assessment_dates = db.session.query(
-        func.date(AssessmentSubmission.submitted_at)
-    ).filter_by(user_id=user_id).all()
+    # assessment_dates = db.session.query(
+    #     func.date(AssessmentSubmission.submitted_at)
+    # ).filter_by(user_id=user_id).all()
     
     # Combine all unique dates
     active_dates = set()
@@ -294,8 +298,8 @@ def calculate_streak(user_id):
         if d[0]: active_dates.add(d[0])
     for d in lesson_dates:
         if d[0]: active_dates.add(d[0])
-    for d in assessment_dates:
-        if d[0]: active_dates.add(d[0])
+    # for d in assessment_dates:
+    #     if d[0]: active_dates.add(d[0])
             
     if not active_dates:
         return 0

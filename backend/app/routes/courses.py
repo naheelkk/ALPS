@@ -1,7 +1,9 @@
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity, verify_jwt_in_request
 from app import db
-from app.models import Course, Enrollment, Lesson, LessonProgress, Assessment, Quiz, AssessmentSubmission
+from app.models import Course, Enrollment, Lesson, LessonProgress, Quiz
+# ASSESSMENT FEATURE DISABLED (faculty requirement)
+# from app.models import Assessment, AssessmentSubmission
 
 courses_bp = Blueprint('courses', __name__)
 
@@ -159,29 +161,27 @@ def get_course(course_id):
         quiz.to_dict() for quiz in course.quizzes.all()
     ]
 
+    # ASSESSMENT FEATURE DISABLED (faculty requirement)
     course_data['assessments'] = []
-    
-    # Direct query to ensure we get assessments even if relationship lazy loading is weird
-    assessments_list = Assessment.query.filter_by(course_id=course_id).all()
-    print(f"DEBUG: Found {len(assessments_list)} assessments for course {course_id} (Direct Query)")
-    for a in assessments_list:
-        print(f" - Assessment: {a.id} | {a.title} | Published: {a.is_published}")
-    
-    if assessments_list:
-        course_data['assessments'] = []
-        for assessment in assessments_list:
-            a_data = assessment.to_dict()
-            if user_id:
-                submission = AssessmentSubmission.query.filter_by(
-                    assessment_id=assessment.id,
-                    user_id=user_id
-                ).first()
-                if submission:
-                    a_data['submitted'] = True
-                    a_data['submitted_at'] = submission.submitted_at.isoformat() if submission.submitted_at else None
-                    a_data['grade'] = submission.score
-                    a_data['feedback'] = submission.comments
-            course_data['assessments'].append(a_data)
+    # assessments_list = Assessment.query.filter_by(course_id=course_id).all()
+    # print(f"DEBUG: Found {len(assessments_list)} assessments for course {course_id} (Direct Query)")
+    # for a in assessments_list:
+    #     print(f" - Assessment: {a.id} | {a.title} | Published: {a.is_published}")
+    # if assessments_list:
+    #     course_data['assessments'] = []
+    #     for assessment in assessments_list:
+    #         a_data = assessment.to_dict()
+    #         if user_id:
+    #             submission = AssessmentSubmission.query.filter_by(
+    #                 assessment_id=assessment.id,
+    #                 user_id=user_id
+    #             ).first()
+    #             if submission:
+    #                 a_data['submitted'] = True
+    #                 a_data['submitted_at'] = submission.submitted_at.isoformat() if submission.submitted_at else None
+    #                 a_data['grade'] = submission.score
+    #                 a_data['feedback'] = submission.comments
+    #         course_data['assessments'].append(a_data)
     
     return jsonify(course_data), 200
 
