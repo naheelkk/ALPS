@@ -3,7 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from functools import wraps
 from werkzeug.utils import secure_filename
 from app import db
-from app.models import User, Course, Quiz, Question, Lesson, Enrollment, Submission, Assessment, AssessmentSubmission, AdaptiveRule
+from app.models import User, Course, Quiz, Question, Lesson, LessonContent, Enrollment, Submission, Assessment, AssessmentSubmission, AdaptiveRule
 from sqlalchemy import func
 from datetime import datetime, timedelta
 import json
@@ -322,7 +322,9 @@ def create_lesson(course_id):
     duration = request.form.get('duration', '')
     is_free = request.form.get('is_free', 'false').lower() == 'true'
     
-    max_order = db.session.query(func.max(Lesson.order)).filter_by(course_id=course_id).scalar() or 0
+    max_lesson_order = db.session.query(func.max(Lesson.order)).filter_by(course_id=course_id).scalar() or 0
+    max_quiz_order   = db.session.query(func.max(Quiz.order)).filter_by(course_id=course_id).scalar() or 0
+    max_order = max(max_lesson_order, max_quiz_order)
     
     # Handle file uploads
     video_url = None
@@ -617,12 +619,23 @@ def create_quiz(course_id):
     
     data = request.get_json()
     
+    # Auto-assign order: place after the last lesson OR quiz in this course,
+    # whichever has the highest order. This ensures quizzes naturally slot
+    # after the most recently added content.
+    if data.get('order') is not None:
+        quiz_order = int(data['order'])
+    else:
+        max_lesson_order = db.session.query(func.max(Lesson.order)).filter_by(course_id=course_id).scalar() or 0
+        max_quiz_order   = db.session.query(func.max(Quiz.order)).filter_by(course_id=course_id).scalar() or 0
+        quiz_order = max(max_lesson_order, max_quiz_order) + 1
+    
     quiz = Quiz(
         course_id=course_id,
         title=data.get('title'),
         description=data.get('description'),
         time_limit=data.get('time_limit', 30),
-        passing_score=data.get('passing_score', 0.6)
+        passing_score=data.get('passing_score', 0.6),
+        order=quiz_order
     )
     
     db.session.add(quiz)
@@ -652,6 +665,9 @@ def update_quiz(quiz_id):
     quiz.description = data.get('description', quiz.description)
     quiz.time_limit = data.get('time_limit', quiz.time_limit)
     quiz.passing_score = data.get('passing_score', quiz.passing_score)
+    
+    if 'order' in data:
+        quiz.order = int(data['order'])
     
     db.session.commit()
     
@@ -911,3 +927,125 @@ def delete_rule(rule_id):
     db.session.commit()
     
     return jsonify({'message': 'Rule deleted'}), 200
+
+
+# ============== LESSON CONTENT MANAGEMENT ==============
+
+@admin_bp.route('/lessons/<int:lesson_id>/contents', methods=['GET'])
+@tutor_required
+def get_lesson_contents(lesson_id):
+    """List all content blocks for a lesson, ordered by position."""
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+
+    lesson = Lesson.query.get_or_404(lesson_id)
+    course = lesson.course
+
+    if user.role != 'admin' and course.instructor_id != user_id:
+        return jsonify({'message': 'Not authorized'}), 403
+
+    contents = lesson.contents.order_by(LessonContent.order).all()
+    return jsonify({'contents': [c.to_dict() for c in contents]}), 200
+
+
+@admin_bp.route('/lessons/<int:lesson_id>/contents', methods=['POST'])
+@tutor_required
+def create_lesson_content(lesson_id):
+    """Create a new content block inside a lesson."""
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+
+    lesson = Lesson.query.get_or_404(lesson_id)
+    course = lesson.course
+
+    if user.role != 'admin' and course.instructor_id != user_id:
+        return jsonify({'message': 'Not authorized'}), 403
+
+    data = request.get_json() or {}
+    content_type = data.get('type', 'text')
+
+    # Determine next order value
+    max_order = db.session.query(func.max(LessonContent.order)).filter_by(lesson_id=lesson_id).scalar() or -1
+
+    block = LessonContent(
+        lesson_id=lesson_id,
+        type=content_type,
+        body=data.get('body'),
+        language=data.get('language'),
+        url=data.get('url'),
+        file_name=data.get('file_name'),
+        order=data.get('order', max_order + 1),
+    )
+    db.session.add(block)
+    db.session.commit()
+
+    return jsonify({'message': 'Content block created', 'content': block.to_dict()}), 201
+
+
+@admin_bp.route('/lesson-contents/<int:content_id>', methods=['PUT'])
+@tutor_required
+def update_lesson_content(content_id):
+    """Update a content block."""
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+
+    block = LessonContent.query.get_or_404(content_id)
+    course = block.lesson.course
+
+    if user.role != 'admin' and course.instructor_id != user_id:
+        return jsonify({'message': 'Not authorized'}), 403
+
+    data = request.get_json() or {}
+    block.type = data.get('type', block.type)
+    block.body = data.get('body', block.body)
+    block.language = data.get('language', block.language)
+    block.url = data.get('url', block.url)
+    block.file_name = data.get('file_name', block.file_name)
+    if 'order' in data:
+        block.order = int(data['order'])
+
+    db.session.commit()
+    return jsonify({'message': 'Content block updated', 'content': block.to_dict()}), 200
+
+
+@admin_bp.route('/lesson-contents/<int:content_id>', methods=['DELETE'])
+@tutor_required
+def delete_lesson_content(content_id):
+    """Delete a content block."""
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+
+    block = LessonContent.query.get_or_404(content_id)
+    course = block.lesson.course
+
+    if user.role != 'admin' and course.instructor_id != user_id:
+        return jsonify({'message': 'Not authorized'}), 403
+
+    db.session.delete(block)
+    db.session.commit()
+    return jsonify({'message': 'Content block deleted'}), 200
+
+
+@admin_bp.route('/lessons/<int:lesson_id>/contents/reorder', methods=['PUT'])
+@tutor_required
+def reorder_lesson_contents(lesson_id):
+    """Bulk-reorder content blocks. Body: { "order": [id1, id2, id3, ...] }"""
+    user_id = int(get_jwt_identity())
+    user = User.query.get(user_id)
+
+    lesson = Lesson.query.get_or_404(lesson_id)
+    course = lesson.course
+
+    if user.role != 'admin' and course.instructor_id != user_id:
+        return jsonify({'message': 'Not authorized'}), 403
+
+    data = request.get_json() or {}
+    ordered_ids = data.get('order', [])
+
+    for position, content_id in enumerate(ordered_ids):
+        block = LessonContent.query.filter_by(id=content_id, lesson_id=lesson_id).first()
+        if block:
+            block.order = position
+
+    db.session.commit()
+    return jsonify({'message': 'Content reordered'}), 200
