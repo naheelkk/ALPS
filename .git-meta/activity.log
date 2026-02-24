@@ -182,3 +182,4 @@
 2026-02-23T12:39:47  chore: update dependencies
 2026-02-23T13:54:07  perf: optimise logic
 2026-02-24T10:25:28  refactor: improve readability
+2026-02-24T16:39:59  fix: resolve type issues
