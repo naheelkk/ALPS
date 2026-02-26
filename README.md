@@ -27,6 +27,9 @@ An intelligent, full-stack e-learning platform with adaptive recommendations, qu
 
 ---
 
+
+
+
 ## Project Overview
 
 ALPS is a full-stack adaptive learning platform built for students, tutors, and admins. Students can browse and enroll in courses, watch lessons, take quizzes, submit assignments (assessments), and receive AI-driven recommendations for concepts they need to improve. Tutors/admins can create courses, manage lessons, author quizzes, grade assessments, and view platform-wide analytics.

@@ -193,6 +193,7 @@
   @apply bg-gradient-to-b from-primary-500 to-purple-600 rounded-full;
 }
 
+
 ::-webkit-scrollbar-thumb:hover {
   @apply from-primary-600 to-purple-700;
 }
