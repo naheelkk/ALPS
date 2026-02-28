@@ -12,6 +12,7 @@ class Quiz(db.Model):
     time_limit = db.Column(db.Integer)  # in minutes
     passing_score = db.Column(db.Float, default=0.6)
     order = db.Column(db.Integer, default=0)
+    topics = db.Column(db.Text)  # JSON list of concepts
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     # Relationships
@@ -27,6 +28,8 @@ class Quiz(db.Model):
             'description': self.description,
             'time_limit': self.time_limit,
             'passing_score': self.passing_score,
+            'order': self.order,
+            'topics': json.loads(self.topics) if self.topics else [],
             'question_count': self.questions.count()
         }
         
@@ -49,6 +52,7 @@ class Question(db.Model):
     correct_answer = db.Column(db.String(255), nullable=False)
     concept = db.Column(db.String(100))
     subconcept = db.Column(db.String(100))
+    
     difficulty = db.Column(db.String(20), default='medium')
     explanation = db.Column(db.Text)
     order = db.Column(db.Integer, default=0)
