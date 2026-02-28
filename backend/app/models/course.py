@@ -1,5 +1,6 @@
 from datetime import datetime
 from app import db
+import json
 
 class Course(db.Model):
     __tablename__ = 'courses'
@@ -103,10 +104,13 @@ class Lesson(db.Model):
     file_name = db.Column(db.String(255))
     order = db.Column(db.Integer, default=0)
     is_free = db.Column(db.Boolean, default=False)
+    topics = db.Column(db.Text)  # JSON list of concepts
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
     course = db.relationship('Course', back_populates='lessons')
     progress = db.relationship('LessonProgress', back_populates='lesson', lazy='dynamic', cascade='all, delete-orphan')
+    contents = db.relationship('LessonContent', back_populates='lesson', lazy='dynamic',
+                               order_by='LessonContent.order', cascade='all, delete-orphan')
     
     def to_dict(self, user_id=None):
         data = {
@@ -114,7 +118,7 @@ class Lesson(db.Model):
             'course_id': self.course_id,
             'title': self.title,
             'description': self.description,
-            'content': self.content,
+            'content': self.content,  # kept for backward-compat
             'type': self.type,
             'duration': self.duration,
             'video_url': self.video_url,
@@ -122,7 +126,9 @@ class Lesson(db.Model):
             'file_name': self.file_name,
             'order': self.order,
             'is_free': self.is_free,
-            'completed': False
+            'topics': json.loads(self.topics) if self.topics else [],
+            'completed': False,
+            'contents': [c.to_dict() for c in self.contents.all()]
         }
         
         if user_id:
@@ -150,3 +156,38 @@ class LessonProgress(db.Model):
     __table_args__ = (
         db.UniqueConstraint('user_id', 'lesson_id', name='unique_lesson_progress'),
     )
+
+
+class LessonContent(db.Model):
+    """A single content block within a lesson (text, code, video, image, or file)."""
+    __tablename__ = 'lesson_contents'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    lesson_id = db.Column(db.Integer, db.ForeignKey('lessons.id'), nullable=False)
+    # type: text | code | video | image | file
+    type = db.Column(db.String(20), nullable=False, default='text')
+    # For text / code blocks
+    body = db.Column(db.Text)
+    # For code blocks: language tag (js, python, bash, …)
+    language = db.Column(db.String(30))
+    # For video / image / file blocks
+    url = db.Column(db.String(500))
+    # Original filename for file-type blocks
+    file_name = db.Column(db.String(255))
+    # Position within the lesson (0-based)
+    order = db.Column(db.Integer, default=0)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+    
+    lesson = db.relationship('Lesson', back_populates='contents')
+    
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'lesson_id': self.lesson_id,
+            'type': self.type,
+            'body': self.body,
+            'language': self.language,
+            'url': self.url,
+            'file_name': self.file_name,
+            'order': self.order,
+        }
