@@ -18,25 +18,26 @@ class MasteryTracker:
     INITIAL_MASTERY = 0.5
     
     def __init__(self):
-        self.concept_dependencies = {
-            'Functions': ['Variables'],
-            'Loops': ['Variables'],
-            'Arrays': ['Variables', 'Loops'],
-            'Objects': ['Variables', 'Functions'],
-            'Async': ['Functions', 'Objects']
-        }
+        pass
     
-    def calculate_mastery(self, user_id: int) -> Dict[str, float]:
+    def calculate_mastery(self, user_id: int, course_id: Optional[int] = None) -> Dict[str, float]:
         """
-        Calculate mastery levels for all concepts for a user.
+        Calculate mastery levels for all concepts for a user, optionally filtered by course.
         
         Returns:
             Dict mapping concept names to mastery scores (0-1)
         """
-        # Get all answers for user
-        answers = Answer.query.join(Submission).filter(
+        from app.models import Question
+        
+        # Get answers for user, optionally filtered by course
+        query = Answer.query.join(Submission).filter(
             Submission.user_id == user_id
-        ).order_by(Submission.submitted_at.desc()).all()
+        )
+        
+        if course_id is not None:
+            query = query.join(Question).filter(Question.quiz.has(course_id=course_id))
+            
+        answers = query.order_by(Submission.submitted_at.desc()).all()
         
         if not answers:
             return {}
@@ -59,11 +60,10 @@ class MasteryTracker:
         for concept, history in concept_history.items():
             mastery_scores[concept] = self._calculate_concept_mastery(history)
         
-        # Apply dependency constraints
-        mastery_scores = self._apply_dependencies(mastery_scores)
+        # Note: Dependency application logic is disabled for course-agnostic CMAB.
+        # If dynamic dependencies are added later, re-enable _apply_dependencies here.
         
         return mastery_scores
-    
     def _calculate_concept_mastery(self, history: List[Dict]) -> float:
         """Calculate mastery for a single concept based on answer history."""
         if not history:
@@ -95,27 +95,11 @@ class MasteryTracker:
     
     def _apply_dependencies(self, mastery_scores: Dict[str, float]) -> Dict[str, float]:
         """
-        Apply dependency constraints.
+        Apply dependency constraints (Currently disabled for course-agnostic support).
         A concept's mastery is capped by its prerequisites.
         """
-        adjusted_scores = mastery_scores.copy()
-        
-        for concept, prerequisites in self.concept_dependencies.items():
-            if concept in adjusted_scores:
-                # Get minimum prerequisite mastery
-                prereq_masteries = [
-                    adjusted_scores.get(prereq, self.INITIAL_MASTERY)
-                    for prereq in prerequisites
-                ]
-                
-                if prereq_masteries:
-                    min_prereq = min(prereq_masteries)
-                    # Cap concept mastery at 1.2x the minimum prerequisite
-                    max_allowed = min(1.0, min_prereq * 1.2)
-                    adjusted_scores[concept] = min(adjusted_scores[concept], max_allowed)
-        
-        return adjusted_scores
-    
+        # Return scores unchanged until dynamic dependency loading is implemented
+        return mastery_scores
     def get_learning_velocity(self, user_id: int, days: int = 7) -> float:
         """
         Calculate learning velocity (improvement rate) over recent period.
