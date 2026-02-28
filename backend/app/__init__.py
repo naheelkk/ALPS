@@ -60,9 +60,8 @@ def create_app(config_name='default'):
     from app.routes import (
         auth_bp, courses_bp, quizzes_bp, 
         recommendations_bp, progress_bp, 
-        admin_bp
-        # ASSESSMENT FEATURE DISABLED (faculty requirement)
-        # assessments_bp
+        admin_bp,
+        assessments_bp
     )
     
     app.register_blueprint(auth_bp, url_prefix='/api/auth')
@@ -71,11 +70,10 @@ def create_app(config_name='default'):
     app.register_blueprint(recommendations_bp, url_prefix='/api/recommendations')
     app.register_blueprint(progress_bp, url_prefix='/api/progress')
     app.register_blueprint(admin_bp, url_prefix='/api/admin')
-    # ASSESSMENT FEATURE DISABLED (faculty requirement)
-    # app.register_blueprint(assessments_bp, url_prefix='/api')
+    app.register_blueprint(assessments_bp, url_prefix='/api')
     
     # Create tables
-    with app.app_context():
-        db.create_all()
+    # with app.app_context():
+    #     db.create_all()
     
     return app
