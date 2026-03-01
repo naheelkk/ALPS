@@ -27,14 +27,11 @@ An intelligent, full-stack e-learning platform with adaptive recommendations, qu
 
 ---
 
-
-
-
 ## Project Overview
 
-ALPS is a full-stack adaptive learning platform built for students, tutors, and admins. Students can browse and enroll in courses, watch lessons, take quizzes, submit assignments (assessments), and receive AI-driven recommendations for concepts they need to improve. Tutors/admins can create courses, manage lessons, author quizzes, grade assessments, and view platform-wide analytics.
+ALPS is a full-stack adaptive learning platform built for students, tutors, and admins. Students can browse and enroll in courses, watch lessons, take quizzes, and receive AI-driven recommendations powered by a **Contextual Multi-Armed Bandit (CMAB)** engine.
 
-The adaptive layer works by analyzing quiz performance at a **concept level** (e.g., "Functions", "Loops", "Variables"), tracking mastery over time with a weighted decay system, and generating personalized learning recommendations — with hooks in place for a future Reinforcement Learning (RL) upgrade.
+The adaptive layer works by analyzing quiz performance at a **concept level** (e.g., "Functions", "Loops", "Variables") and building a dynamic Context Vector ($x_t$). The CMAB engine tracks mastery over time with a weighted decay system, and generates personalized learning recommendations based on the student's historical success rates across similar topics.
 
 ---
 
@@ -199,7 +196,7 @@ The backbone of the learning content.
 
 **`Course`** — A full course with title, description, category, level (Beginner/Intermediate/Advanced), duration, pricing, rating, and a thumbnail/preview video URL. Has a published/unpublished flag.
 
-**`Lesson`** — Individual lessons within a course, ordered by `order`. Types: `video`, `text`, or `file`. Stores `video_url`, `file_url`, and `file_name` for uploaded resources. `is_free` flag allows preview without enrollment.
+**`Lesson`** — Individual lessons within a course, ordered by `order`. Types: `video`, `text`, or `file`. Stores `video_url`, `file_url`, and `file_name` for uploaded resources. `is_free` flag allows preview without enrollment. Also contains a `topics` JSON array used to define its feature vector for the CMAB engine.
 
 **`Enrollment`** — Junction table between users and courses. Tracks `progress` (0–100%), `status` (active/completed/dropped), and access timestamps.
 
@@ -222,24 +219,9 @@ The quiz system for auto-graded assessments.
 
 **`Submission`** — A student's quiz attempt. Stores `score`, `total_questions`, `correct_answers`, and `time_taken`. Linked to individual `Answer` records.
 
-**`Answer`** — The student's response to each question. Records `selected_answer`, `is_correct`, and `time_spent` per question. Used by the adaptive engine to analyze concept-level performance.
+**`Answer`** — The student's response to each question. Records `selected_answer`, `is_correct`, and `time_spent` per question. Used by the adaptive engine to analyze concept-level performance and update the student's Context Vector.
 
----
-
-#### `Assessment`, `AssessmentSubmission` (`app/models/assessment.py`)
-
-File-upload based open-ended assignments (as opposed to auto-graded quizzes).
-
-**`Assessment`** — Belongs to a course. Has a title, instructions, `max_score`, `due_date`, and allowed file types (default: pdf, doc, docx, zip). `is_published` flag controls student visibility.
-
-**`AssessmentSubmission`** — A student's file submission. Stores:
-- Uploaded `file_url`, `file_name`, `file_size`
-- Optional student `comments`
-- `score` and `feedback` from the tutor
-- `concept_scores` as a JSON dict (e.g., `{"Algorithm Design": 0.8, "Complexity": 0.4}`) — used to trigger adaptive recommendations after grading
-- `status`: `submitted` → `graded`
-
-A unique constraint ensures one submission per student per assessment.
+*(Note: File-upload Assessments have been intentionally disabled by faculty requirement to focus exclusively on the CMAB quiz implementation).*
 
 ---
 
@@ -377,17 +359,18 @@ Protected by `tutor` or `admin` role. Covers:
 
 ### Services (Business Logic)
 
-#### `AdaptiveEngine` (`app/services/adaptive_engine.py`)
+#### `Contextual Bandit Engine` (`app/services/rl_agent.py`)
 
-The core brain of the recommendation system. Called after every quiz submission and assessment grading.
+The core brain of the recommendation system utilizing a Contextual Multi-Armed Bandit (CMAB) architecture (LinUCB algorithm).
 
 **How it works:**
 
-1. **Analyze concept results** — For each concept tagged on quiz questions, calculates a mastery ratio (correct / total).
-2. **Prioritize** — Concepts below 40% get `high` priority; 40–70% get `medium`. Well-understood concepts (>70%) are skipped.
-3. **Select resource** — First checks `AdaptiveRule` table for instructor-defined overrides for the concept. Falls back to the `Resource` catalog filtered by concept and difficulty level.
-4. **Check prerequisites** — Uses a dependency graph (e.g., "Functions" requires "Variables") to detect if a student is struggling with a topic because of a missing prerequisite, and recommends the prerequisite first.
-5. **Log for RL** — Every recommendation action is saved to `LearningLog` as a state-action tuple for future RL training.
+1. **Context Vector Generation ($x_t$)** — Analyzes the student's current mastery levels across all topics (e.g., Pandas, DNS, Variables).
+2. **Action Selection (Upper Confidence Bound)** — Evaluates candidate resources (lessons/quizzes) by predicting their expected reward $E[r_{t,a} \| x_{t}]$, factoring in both the historical success of the resource for similar students and an exploration bonus $\alpha \sqrt{x_t^T A_a^{-1} x_t}$.
+3. **Reward Signal Collection** — When a student interacts with a recommended resource and subsequently takes a related quiz, the engine calculates a reward $r_t$ based on score improvement.
+4. **Model Update** — The matrix $A_a$ and vector $b_a$ for the chosen action are updated online, continuously improving the bandit's future predictions.
+
+Also supports `AdaptiveRule` instructor overrides that function as a bypass to the RL engine for specific struggling concepts.
 
 Also supports `generate_recommendations_from_assessment()` which works the same way but reads `concept_scores` from the assessment grading form instead of quiz answers.
 
