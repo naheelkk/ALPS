@@ -152,3 +152,87 @@ class MasteryTracker:
         weak.sort(key=lambda x: x['mastery'])
         
         return weak
+    
+    def get_recent_accuracy(self, user_id: int, num_questions: int = 20) -> float:
+        """Calculate accuracy over the most recent questions."""
+        recent_answers = Answer.query.join(Submission).filter(
+            Submission.user_id == user_id
+        ).order_by(Submission.submitted_at.desc()).limit(num_questions).all()
+        
+        if not recent_answers:
+            return 0.5 # Default starting accuracy
+            
+        correct = sum(1 for a in recent_answers if a.is_correct)
+        return correct / len(recent_answers)
+        
+    def get_normalized_response_time(self, user_id: int, limit: int = 20) -> float:
+        """
+        Calculate normalized response time (Speed). 
+        1.0 means very fast, 0.0 means very slow/struggling.
+        """
+        recent_answers = Answer.query.join(Submission).filter(
+            Submission.user_id == user_id
+        ).order_by(Submission.submitted_at.desc()).limit(limit).all()
+        
+        if not recent_answers:
+            return 0.5
+            
+        times = [a.time_spent for a in recent_answers if a.time_spent is not None]
+        if not times:
+            return 0.5
+            
+        avg_time = sum(times) / len(times)
+        
+        # Assume 60 seconds is typical max time per question for normalization
+        MAX_EXPECTED_TIME = 60.0 
+        normalized = 1.0 - min(avg_time / MAX_EXPECTED_TIME, 1.0)
+        return round(normalized, 3)
+        
+    def get_recent_engagement(self, user_id: int) -> float:
+        """
+        Calculates if the user engaged with recent recommendations.
+        Returns 1.0 if they completed the last recommended resource, else 0.0.
+        """
+        from app.models import Recommendation
+        
+        # Get the most recent recommendation
+        last_rec = Recommendation.query.filter_by(
+            user_id=user_id
+        ).order_by(Recommendation.id.desc()).first()
+        
+        if not last_rec:
+            return 0.5 # Default middle ground
+            
+        # Check if it was completed
+        return 1.0 if last_rec.status == 'completed' else 0.0
+
+    def build_context_vector(self, user_id: int) -> np.ndarray:
+        """
+        Builds the 12-dimensional context vector describing the student's current state.
+        Dims 0-7: Core Concept Mastery
+        Dim 8: Recent Accuracy 
+        Dim 9: Normalized Response Time (Speed)
+        Dim 10: Learning Velocity
+        Dim 11: Recent Engagement
+        """
+        # Define the exact 8 core concepts we always track in order
+        CORE_CONCEPTS = [
+            'Variables', 'Functions', 'Loops', 'Arrays', 
+            'Objects', 'Async', 'Closures', 'Classes'
+        ]
+        
+        # Get all mastery scores
+        mastery_scores = self.calculate_mastery(user_id)
+        
+        # 1. Fill dimensions 0-7 with mastery (default 0.5 if unseen)
+        vector = []
+        for concept in CORE_CONCEPTS:
+            vector.append(mastery_scores.get(concept, 0.5))
+            
+        # 2. Add extra 4 dimensions
+        vector.append(self.get_recent_accuracy(user_id))
+        vector.append(self.get_normalized_response_time(user_id))
+        vector.append(max(min(self.get_learning_velocity(user_id), 1.0), -1.0)) # Clamp velocity between -1 and 1
+        vector.append(self.get_recent_engagement(user_id))
+        
+        return np.array(vector, dtype=np.float32)
