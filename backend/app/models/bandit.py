@@ -9,7 +9,10 @@ class BanditParam(db.Model):
     __tablename__ = 'bandit_params'
     
     id = db.Column(db.Integer, primary_key=True)
-    resource_id = db.Column(db.Integer, db.ForeignKey('resources.id'), nullable=False, unique=True)
+    item_type = db.Column(db.String(50), nullable=False) # 'lesson' or 'resource'
+    item_id = db.Column(db.Integer, nullable=False)
+    
+    __table_args__ = (db.UniqueConstraint('item_type', 'item_id', name='uq_bandit_param_item'),)
     
     # Store A as a flattened JSON array. Default should be Identity matrix I.
     matrix_a = db.Column(db.Text, nullable=False) 
@@ -20,5 +23,4 @@ class BanditParam(db.Model):
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
     
-    # Relationships
-    resource = db.relationship('Resource', backref=db.backref('bandit_params', uselist=False))
+    # Note: No enforced ForeignKey relationship here to allow tracking both Lessons and Resources.
