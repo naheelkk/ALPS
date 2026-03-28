@@ -184,8 +184,7 @@ Project-1/
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd Project-1
+git clone https://github.com/naheelkk/ALPS
 ```
 
 ---
