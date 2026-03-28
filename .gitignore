@@ -1,0 +1,7 @@
+.venv/
+backend/venv
+backend/__pycache__
+backend/.env
+backend/config.py
+backend/instance/
+backend/migrations
