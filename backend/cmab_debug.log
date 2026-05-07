@@ -343,5 +343,185 @@
 2026-03-25 11:38:24,794 - INFO - Processing Reward for User 1, Arm lesson:13 (Introduction to Python)
 2026-03-25 11:38:24,794 - DEBUG - Accuracy: 1.0000 (Old: 0.2500 -> Improv: 0.7500)
 2026-03-25 11:38:24,795 - DEBUG - Difficulty Mismatch: 0.2380 (Item Diff: 0.6 vs Mastery Avg: 0.3620)
-2026-03-25 11:38:24,795 - INFO - Calculated Final Reward: 0.6774 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+2026-03-25 11:38:24,795 - INFO - Calculated Final lReward: 0.6774 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-03-31 11:11:33,929 - DEBUG - Action Selection - Context Vector: [0.06199999898672104, 0.32199999690055847, 0.19699999690055847, 0.5, 0.5, 0.5, 0.5, 0.5, 0.6000000238418579, 0.9620000123977661, 0.0, 1.0]
+2026-03-31 11:11:33,957 - DEBUG - Arm lesson:1 (Lesson: Pandas Data Wrangling) | Expected: 0.2298 | Bonus: 0.6188 | Final UCB: 0.8486
+2026-03-31 11:11:33,959 - DEBUG - Arm lesson:2 (Lesson: Data Visualization) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,961 - DEBUG - Arm lesson:3 (Lesson: Scikit-Learn Models) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,961 - DEBUG - Arm lesson:4 (Lesson: Neural Networks Basics) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,962 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0766 | Bonus: 0.6826 | Final UCB: 0.7592
+2026-03-31 11:11:33,963 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,964 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,964 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,965 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.9594 | Final UCB: 0.9594
+2026-03-31 11:11:33,965 - INFO - WINNER: Arm lesson:2 with highest UCB score 0.9594
+
+2026-04-02 19:44:11,828 - INFO - Processing Reward for User 1, Arm lesson:2 (Data Visualization)
+2026-04-02 19:44:11,830 - DEBUG - Accuracy: 0.4000 (Old: 0.2500 -> Improv: 0.1500)
+2026-04-02 19:44:11,834 - DEBUG - Difficulty Mismatch: 0.2149 (Item Diff: 0.6 vs Mastery Avg: 0.3851)
+2026-04-02 19:44:11,834 - INFO - Calculated Final Reward: 0.2020 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-04-02 19:44:12,129 - DEBUG - Action Selection - Context Vector: [0.07699999958276749, 0.32600000500679016, 0.19099999964237213, 0.5, 0.5, 0.5, 0.5, 0.5, 0.550000011920929, 0.9620000123977661, -0.30000001192092896, 0.0]
+2026-04-02 19:44:12,136 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0758 | Bonus: 0.4828 | Final UCB: 0.5587
+2026-04-02 19:44:12,141 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: 0.0000 | Bonus: 0.8241 | Final UCB: 0.8241
+2026-04-02 19:44:12,144 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8241 | Final UCB: 0.8241
+2026-04-02 19:44:12,150 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.8241 | Final UCB: 0.8241
+2026-04-02 19:44:12,151 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8241 | Final UCB: 0.8241
+2026-04-02 19:44:12,152 - INFO - WINNER: Arm resource:2 with highest UCB score 0.8241
+
+2026-04-02 19:52:12,588 - INFO - Processing Reward for User 1, Arm resource:2 (Mastering Loops)
+2026-04-02 19:52:12,588 - DEBUG - Accuracy: 0.2000 (Old: 0.4000 -> Improv: -0.2000)
+2026-04-02 19:52:12,588 - DEBUG - Difficulty Mismatch: 0.2133 (Item Diff: 0.6 vs Mastery Avg: 0.3867)
+2026-04-02 19:52:12,588 - INFO - Calculated Final Reward: -0.0027 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-04-02 19:52:12,696 - DEBUG - Action Selection - Context Vector: [0.07699999958276749, 0.32600000500679016, 0.19099999964237213, 0.5, 0.5, 0.5, 0.5, 0.5, 0.44999998807907104, 0.953000009059906, -0.4000000059604645, 0.0]
+2026-04-02 19:52:12,713 - DEBUG - Arm lesson:21 (Lesson: Backpropagation in Depth) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,717 - DEBUG - Arm lesson:22 (Lesson: ONNX Model Formatting) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,723 - DEBUG - Arm lesson:23 (Lesson: Serving via Triton Inference Server) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,725 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0738 | Bonus: 0.4952 | Final UCB: 0.5690
+2026-04-02 19:52:12,727 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0019 | Bonus: 0.4280 | Final UCB: 0.4260
+2026-04-02 19:52:12,733 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,735 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,738 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8169 | Final UCB: 0.8169
+2026-04-02 19:52:12,738 - INFO - WINNER: Arm lesson:21 with highest UCB score 0.8169
+
+2026-05-05 22:07:05,274 - INFO - Processing Reward for User 1, Arm lesson:21 (Backpropagation in Depth)
+2026-05-05 22:07:05,274 - DEBUG - Accuracy: 0.2500 (Old: 0.2000 -> Improv: 0.0500)
+2026-05-05 22:07:05,274 - DEBUG - Difficulty Mismatch: 0.2133 (Item Diff: 0.6 vs Mastery Avg: 0.3867)
+2026-05-05 22:07:05,274 - INFO - Calculated Final Reward: 0.0973 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-05 22:07:05,360 - DEBUG - Action Selection - Context Vector: [0.24300000071525574, 0.39399999380111694, 0.1889999955892563, 0.5, 0.5, 0.5, 0.5, 0.5, 0.30000001192092896, 0.9629999995231628, 0.0, 1.0]
+2026-05-05 22:07:05,368 - DEBUG - Arm lesson:1 (Lesson: Pandas Data Wrangling) | Expected: 0.2488 | Bonus: 0.6325 | Final UCB: 0.8814
+2026-05-05 22:07:05,372 - DEBUG - Arm lesson:2 (Lesson: Data Visualization) | Expected: 0.1526 | Bonus: 0.4603 | Final UCB: 0.6128
+2026-05-05 22:07:05,374 - DEBUG - Arm lesson:3 (Lesson: Scikit-Learn Models) | Expected: 0.0000 | Bonus: 0.9377 | Final UCB: 0.9377
+2026-05-05 22:07:05,376 - DEBUG - Arm lesson:4 (Lesson: Neural Networks Basics) | Expected: 0.0000 | Bonus: 0.9377 | Final UCB: 0.9377
+2026-05-05 22:07:05,377 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0750 | Bonus: 0.6661 | Final UCB: 0.7411
+2026-05-05 22:07:05,379 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0018 | Bonus: 0.6713 | Final UCB: 0.6695
+2026-05-05 22:07:05,379 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.9377 | Final UCB: 0.9377
+2026-05-05 22:07:05,381 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.9377 | Final UCB: 0.9377
+2026-05-05 22:07:05,381 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.9377 | Final UCB: 0.9377
+2026-05-05 22:07:05,381 - INFO - WINNER: Arm lesson:3 with highest UCB score 0.9377
+
+2026-05-05 22:07:26,165 - INFO - Processing Reward for User 1, Arm lesson:3 (Scikit-Learn Models)
+2026-05-05 22:07:26,165 - DEBUG - Accuracy: 0.5000 (Old: 0.2500 -> Improv: 0.2500)
+2026-05-05 22:07:26,165 - DEBUG - Difficulty Mismatch: 0.1843 (Item Diff: 0.6 vs Mastery Avg: 0.4157)
+2026-05-05 22:07:26,165 - INFO - Calculated Final Reward: 0.2881 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-05 22:07:26,227 - DEBUG - Action Selection - Context Vector: [0.24300000071525574, 0.39399999380111694, 0.1889999955892563, 0.5, 0.5, 0.5, 0.5, 0.5, 0.25, 0.972000002861023, 0.25, 0.0]
+2026-05-05 22:07:26,229 - DEBUG - Arm lesson:1 (Lesson: Pandas Data Wrangling) | Expected: 0.2498 | Bonus: 0.4100 | Final UCB: 0.6598
+2026-05-05 22:07:26,231 - DEBUG - Arm lesson:2 (Lesson: Data Visualization) | Expected: 0.1085 | Bonus: 0.5522 | Final UCB: 0.6607
+2026-05-05 22:07:26,232 - DEBUG - Arm lesson:3 (Lesson: Scikit-Learn Models) | Expected: 0.1602 | Bonus: 0.5418 | Final UCB: 0.7019
+2026-05-05 22:07:26,232 - DEBUG - Arm lesson:4 (Lesson: Neural Networks Basics) | Expected: 0.0000 | Bonus: 0.8015 | Final UCB: 0.8015
+2026-05-05 22:07:26,233 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0743 | Bonus: 0.4635 | Final UCB: 0.5378
+2026-05-05 22:07:26,233 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0017 | Bonus: 0.4950 | Final UCB: 0.4932
+2026-05-05 22:07:26,235 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8015 | Final UCB: 0.8015
+2026-05-05 22:07:26,237 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.8015 | Final UCB: 0.8015
+2026-05-05 22:07:26,239 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8015 | Final UCB: 0.8015
+2026-05-05 22:07:26,239 - INFO - WINNER: Arm lesson:4 with highest UCB score 0.8015
+
+2026-05-06 08:12:53,369 - INFO - Processing Reward for User 3, Arm lesson:13 (Introduction to Python)
+2026-05-06 08:12:53,369 - DEBUG - Accuracy: 0.2500 (Old: 0.5000 -> Improv: -0.2500)
+2026-05-06 08:12:53,369 - DEBUG - Difficulty Mismatch: 0.0822 (Item Diff: 0.6 vs Mastery Avg: 0.5178)
+2026-05-06 08:12:53,369 - INFO - Calculated Final Reward: 0.0336 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 08:12:53,415 - DEBUG - Action Selection - Context Vector: [0.4659999907016754, 0.4659999907016754, 0.6380000114440918, 0.5, 0.5, 0.5, 0.5, 0.5, 0.550000011920929, 0.9710000157356262, 0.0, 1.0]
+2026-05-06 08:12:53,423 - DEBUG - Arm lesson:5 (Lesson: DNS & Networking) | Expected: 0.0622 | Bonus: 0.7472 | Final UCB: 0.8094
+2026-05-06 08:12:53,425 - DEBUG - Arm lesson:6 (Lesson: Load Balancing) | Expected: 0.0623 | Bonus: 0.7474 | Final UCB: 0.8097
+2026-05-06 08:12:53,426 - DEBUG - Arm lesson:7 (Lesson: Microservices) | Expected: -0.1621 | Bonus: 0.5918 | Final UCB: 0.4297
+2026-05-06 08:12:53,427 - DEBUG - Arm lesson:8 (Lesson: Caching Strategies) | Expected: 0.3417 | Bonus: 0.4414 | Final UCB: 0.7831
+2026-05-06 08:12:53,428 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0919 | Bonus: 0.6557 | Final UCB: 0.7476
+2026-05-06 08:12:53,428 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0020 | Bonus: 0.7471 | Final UCB: 0.7451
+2026-05-06 08:12:53,429 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 1.0412 | Final UCB: 1.0412
+2026-05-06 08:12:53,430 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 1.0412 | Final UCB: 1.0412
+2026-05-06 08:12:53,431 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 1.0412 | Final UCB: 1.0412
+2026-05-06 08:12:53,431 - INFO - WINNER: Arm resource:3 with highest UCB score 1.0412
+
+2026-05-06 08:13:17,412 - INFO - Processing Reward for User 3, Arm resource:3 (Advanced Async Programming)
+2026-05-06 08:13:17,412 - DEBUG - Accuracy: 0.2500 (Old: 0.2500 -> Improv: 0.0000)
+2026-05-06 08:13:17,412 - DEBUG - Difficulty Mismatch: 0.3913 (Item Diff: 0.9 vs Mastery Avg: 0.5087)
+2026-05-06 08:13:17,412 - INFO - Calculated Final Reward: 0.0467 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 08:13:17,449 - DEBUG - Action Selection - Context Vector: [0.3059999942779541, 0.5860000252723694, 0.43799999356269836, 0.5, 0.5, 0.5, 0.5, 0.5, 0.44999998807907104, 0.9679999947547913, -0.0, 0.0]
+2026-05-06 08:13:17,450 - DEBUG - Arm lesson:9 (Lesson: Variables and Data Types) | Expected: 0.2023 | Bonus: 0.5424 | Final UCB: 0.7448
+2026-05-06 08:13:17,451 - DEBUG - Arm lesson:10 (Lesson: Functions and Methods) | Expected: -0.0362 | Bonus: 0.5437 | Final UCB: 0.5075
+2026-05-06 08:13:17,451 - DEBUG - Arm lesson:11 (Lesson: Loops and Iteration) | Expected: -0.0361 | Bonus: 0.5435 | Final UCB: 0.5073
+2026-05-06 08:13:17,452 - DEBUG - Arm lesson:12 (Lesson: Data Structures) | Expected: -0.0362 | Bonus: 0.5470 | Final UCB: 0.5108
+2026-05-06 08:13:17,453 - DEBUG - Arm lesson:13 (Lesson: Introduction to Python) | Expected: 0.3793 | Bonus: 0.3067 | Final UCB: 0.6860
+2026-05-06 08:13:17,454 - DEBUG - Arm lesson:14 (Lesson: Dummy) | Expected: 0.0000 | Bonus: 0.8687 | Final UCB: 0.8687
+2026-05-06 08:13:17,456 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0860 | Bonus: 0.4257 | Final UCB: 0.5117
+2026-05-06 08:13:17,457 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0019 | Bonus: 0.5044 | Final UCB: 0.5024
+2026-05-06 08:13:17,457 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0274 | Bonus: 0.5431 | Final UCB: 0.5705
+2026-05-06 08:13:17,458 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.8687 | Final UCB: 0.8687
+2026-05-06 08:13:17,459 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8687 | Final UCB: 0.8687
+2026-05-06 08:13:17,459 - INFO - WINNER: Arm lesson:14 with highest UCB score 0.8687
+
+2026-05-06 09:12:59,095 - INFO - Processing Reward for User 3, Arm lesson:14 (Data Structures)
+2026-05-06 09:12:59,096 - DEBUG - Accuracy: 0.2500 (Old: 0.2500 -> Improv: 0.0000)
+2026-05-06 09:12:59,097 - DEBUG - Difficulty Mismatch: 0.1213 (Item Diff: 0.6 vs Mastery Avg: 0.4787)
+2026-05-06 09:12:59,097 - INFO - Calculated Final Reward: 0.1007 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 09:12:59,175 - DEBUG - Action Selection - Context Vector: [0.3059999942779541, 0.5860000252723694, 0.43799999356269836, 0.5, 0.5, 0.5, 0.5, 0.5, 0.4000000059604645, 0.9629999995231628, 0.0, 0.0]
+2026-05-06 09:12:59,179 - DEBUG - Arm lesson:5 (Lesson: DNS & Networking) | Expected: 0.0592 | Bonus: 0.5155 | Final UCB: 0.5747
+2026-05-06 09:12:59,183 - DEBUG - Arm lesson:6 (Lesson: Load Balancing) | Expected: 0.0592 | Bonus: 0.5158 | Final UCB: 0.5751
+2026-05-06 09:12:59,186 - DEBUG - Arm lesson:7 (Lesson: Microservices) | Expected: -0.1119 | Bonus: 0.6258 | Final UCB: 0.5139
+2026-05-06 09:12:59,187 - DEBUG - Arm lesson:8 (Lesson: Caching Strategies) | Expected: 0.2471 | Bonus: 0.5259 | Final UCB: 0.7730
+2026-05-06 09:12:59,188 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0850 | Bonus: 0.4266 | Final UCB: 0.5116
+2026-05-06 09:12:59,189 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: -0.0019 | Bonus: 0.5031 | Final UCB: 0.5012
+2026-05-06 09:12:59,190 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0272 | Bonus: 0.5397 | Final UCB: 0.5669
+2026-05-06 09:12:59,191 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.0000 | Bonus: 0.8611 | Final UCB: 0.8611
+2026-05-06 09:12:59,191 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8611 | Final UCB: 0.8611
+2026-05-06 09:12:59,191 - INFO - WINNER: Arm resource:4 with highest UCB score 0.8611
+
+2026-05-06 09:24:42,957 - INFO - Processing Reward for User 3, Arm resource:4 (Functions deeply explained)
+2026-05-06 09:24:42,957 - DEBUG - Accuracy: 0.5000 (Old: 0.2500 -> Improv: 0.2500)
+2026-05-06 09:24:42,957 - DEBUG - Difficulty Mismatch: 0.1213 (Item Diff: 0.6 vs Mastery Avg: 0.4787)
+2026-05-06 09:24:42,957 - INFO - Calculated Final Reward: 0.3007 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 09:24:43,026 - DEBUG - Action Selection - Context Vector: [0.5, 0.5239999890327454, 0.3059999942779541, 0.5, 0.5, 0.24699999392032623, 0.5, 0.5, 0.3499999940395355, 0.9399999976158142, 0.07500000298023224, 0.0]
+2026-05-06 09:24:43,034 - DEBUG - Arm lesson:5 (Lesson: DNS & Networking) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,037 - DEBUG - Arm lesson:6 (Lesson: Load Balancing) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,039 - DEBUG - Arm lesson:7 (Lesson: Microservices) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,039 - DEBUG - Arm lesson:8 (Lesson: Caching Strategies) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,040 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,040 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,042 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,043 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.2095 | Bonus: 0.4377 | Final UCB: 0.6472
+2026-05-06 09:24:43,043 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8202 | Final UCB: 0.8202
+2026-05-06 09:24:43,043 - INFO - WINNER: Arm lesson:5 with highest UCB score 0.8202
+
+2026-05-06 09:25:26,404 - INFO - Processing Reward for User 3, Arm lesson:5 (DNS & Networking)
+2026-05-06 09:25:26,404 - DEBUG - Accuracy: 0.5000 (Old: 0.5000 -> Improv: 0.0000)
+2026-05-06 09:25:26,404 - DEBUG - Difficulty Mismatch: 0.1529 (Item Diff: 0.6 vs Mastery Avg: 0.4471)
+2026-05-06 09:25:26,404 - INFO - Calculated Final Reward: 0.2194 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 09:25:26,452 - DEBUG - Action Selection - Context Vector: [0.5, 0.5139999985694885, 0.1459999978542328, 0.5, 0.5, 0.24699999392032623, 0.5, 0.5, 0.3499999940395355, 0.9409999847412109, 0.07500000298023224, 0.0]
+2026-05-06 09:25:26,454 - DEBUG - Arm lesson:9 (Lesson: Variables and Data Types) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,455 - DEBUG - Arm lesson:10 (Lesson: Functions and Methods) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,456 - DEBUG - Arm lesson:11 (Lesson: Loops and Iteration) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,456 - DEBUG - Arm lesson:12 (Lesson: Data Structures) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,458 - DEBUG - Arm lesson:13 (Lesson: Introduction to Python) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,465 - DEBUG - Arm lesson:14 (Lesson: Data Structures) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,468 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,468 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,469 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,469 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.2038 | Bonus: 0.4440 | Final UCB: 0.6478
+2026-05-06 09:25:26,470 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8078 | Final UCB: 0.8078
+2026-05-06 09:25:26,470 - INFO - WINNER: Arm lesson:9 with highest UCB score 0.8078
+
+2026-05-06 09:46:35,604 - INFO - Processing Reward for User 3, Arm lesson:9 (Variables and Data Types)
+2026-05-06 09:46:35,605 - DEBUG - Accuracy: 0.3000 (Old: 0.5000 -> Improv: -0.2000)
+2026-05-06 09:46:35,605 - DEBUG - Difficulty Mismatch: 0.1741 (Item Diff: 0.6 vs Mastery Avg: 0.4259)
+2026-05-06 09:46:35,605 - INFO - Calculated Final Reward: 0.0552 [Weights: 0.5(Acc) + 0.3(Imp) - 0.2(Mis)]
+
+2026-05-06 09:46:35,707 - DEBUG - Action Selection - Context Vector: [0.5, 0.5139999985694885, 0.1459999978542328, 0.5, 0.5, 0.24699999392032623, 0.5, 0.5, 0.4000000059604645, 0.9440000057220459, 0.0357000008225441, 0.0]
+2026-05-06 09:46:35,717 - DEBUG - Arm lesson:21 (Lesson: Backpropagation in Depth) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,718 - DEBUG - Arm lesson:22 (Lesson: ONNX Model Formatting) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,720 - DEBUG - Arm lesson:23 (Lesson: Serving via Triton Inference Server) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,722 - DEBUG - Arm resource:1 (Resource: Introduction to Variables) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,722 - DEBUG - Arm resource:2 (Resource: Mastering Loops) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,723 - DEBUG - Arm resource:3 (Resource: Advanced Async Programming) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,725 - DEBUG - Arm resource:4 (Resource: Functions deeply explained) | Expected: 0.2055 | Bonus: 0.4462 | Final UCB: 0.6517
+2026-05-06 09:46:35,725 - DEBUG - Arm resource:5 (Resource: Understanding Closures) | Expected: 0.0000 | Bonus: 0.8138 | Final UCB: 0.8138
+2026-05-06 09:46:35,725 - INFO - WINNER: Arm lesson:21 with highest UCB score 0.8138
 

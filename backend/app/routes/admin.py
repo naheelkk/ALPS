@@ -241,7 +241,9 @@ def update_course(course_id):
     course.category = data.get('category', course.category)
     course.level = data.get('level', course.level)
     course.duration = data.get('duration', course.duration)
-    course.price = float(data.get('price', course.price))
+    new_price = data.get('price')
+    if new_price is not None and str(new_price).strip() != '':
+        course.price = float(new_price)
     
     if 'is_published' in data:
         course.is_published = data['is_published'] if isinstance(data['is_published'], bool) else data['is_published'].lower() == 'true'

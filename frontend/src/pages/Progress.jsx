@@ -70,6 +70,11 @@ export default function Progress() {
   const hasMasteryData = masteryData.length > 0
   const hasActivityData = activityData.history.length > 0
 
+  // Prepare Radar Chart data (Top 5 and Bottom 5 concepts if there are more than 10)
+  const radarData = masteryData.length > 10 
+    ? [...masteryData].sort((a, b) => b.mastery - a.mastery).filter((_, i) => i < 5 || i >= masteryData.length - 5) 
+    : masteryData;
+
 
   return (
     <div className="space-y-6">
@@ -183,7 +188,7 @@ export default function Progress() {
           <CardContent>
             {hasMasteryData ? (
                 <ResponsiveContainer width="100%" height={300}>
-                <RadarChart data={masteryData}>
+                <RadarChart data={radarData}>
                     <PolarGrid />
                     <PolarAngleAxis dataKey="concept" />
                     <PolarRadiusAxis angle={30} domain={[0, 100]} />

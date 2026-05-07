@@ -13,8 +13,17 @@ except Exception:
 MODEL = "gemini-flash-lite-latest"
 
 SYSTEM_PROMPT = """You are a computer science education assistant.
-Given a quiz question from a programming/tech course, identify the most
-specific concept it tests. Always respond with valid JSON only — no markdown fences."""
+Given a quiz question or lesson from a programming/tech course, categorize it into EXACTLY ONE of the following 8 Universal Domains:
+1. Syntax & Structure
+2. Logic & Flow
+3. Data Representation
+4. Architecture & Design
+5. Tools & Environment
+6. Theory & Concepts
+7. Security & Reliability
+8. Performance & Optimization
+
+Always respond with valid JSON only — no markdown fences."""
 
 def suggest_topic(question_text: str, options: list, course_title: str = "", quiz_title: str = "") -> dict:
     """
@@ -47,7 +56,7 @@ Options: {json.dumps(options)}
 
 Respond with JSON only in this exact shape:
 {{
-  "concept": "short concept name (e.g. JWT Authentication)",
+  "concept": "Exact name of one of the 8 Universal Domains (e.g. Security & Reliability)",
   "subconcept": "more specific sub-topic (e.g. Token Expiry)",
   "suggested_quiz_topics": ["topic1", "topic2"],
   "confidence": 0.0,
@@ -114,7 +123,7 @@ Lesson Contents Preview: {content_text}
 
 Respond with JSON only in this exact shape:
 {{
-  "concept": "short concept name (e.g. Array Methods)",
+  "concept": "Exact name of one of the 8 Universal Domains (e.g. Logic & Flow)",
   "subconcept": "more specific sub-topic (e.g. Map and Filter)",
   "suggested_quiz_topics": ["topic1", "topic2"],
   "confidence": 0.0,

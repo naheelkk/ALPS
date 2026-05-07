@@ -215,10 +215,11 @@ class MasteryTracker:
         Dim 10: Learning Velocity
         Dim 11: Recent Engagement
         """
-        # Define the exact 8 core concepts we always track in order
+        # Define the exact 8 universal cognitive domains we track in order
         CORE_CONCEPTS = [
-            'Variables', 'Functions', 'Loops', 'Arrays', 
-            'Objects', 'Async', 'Closures', 'Classes'
+            'Syntax & Structure', 'Logic & Flow', 'Data Representation', 
+            'Architecture & Design', 'Tools & Environment', 'Theory & Concepts', 
+            'Security & Reliability', 'Performance & Optimization'
         ]
         
         # Get all mastery scores
